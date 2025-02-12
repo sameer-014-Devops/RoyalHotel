@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skmirza-royalhotel-deploy
+  labels:
+    app: skmirza-royalhotel-deploy-lb01
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: skmirza-royalhotel-app
+  template:
+    metadata:
+      labels:
+        app: skmirza-royalhotel-app
+    spec:
+      containers:
+      - name: skmirza-royalhotel-container
+        image: sameer014/skmirza-royalhotel-img:latest
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+        ports:
+        - containerPort: 8092
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: skmirza-royalhotel-np-service
+  labels:
+    app: skmirza-royalhotel-np-app
+spec:
+  selector:
+    app: skmirza-royalhotel-app
+
+  type: NodePort
+  ports:
+  - nodePort: 30025
+    port: 8092
+    targetPort: 8092
