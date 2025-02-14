@@ -250,9 +250,11 @@ pipeline{
                 expression { Deploy_Main == true }
             }
             steps{
+              script{
                 echo '**********Cleaning RoyalHotel Production workspace**********'
                 cleanWs()
-                deleteDir()
+                sh "rm -rf *"
+              }
             }
         }
     }
