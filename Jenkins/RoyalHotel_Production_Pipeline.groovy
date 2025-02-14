@@ -193,7 +193,7 @@ pipeline{
                         sh """ssh $User_Name@$KubeM_Pvt_IP kubectl apply -f royalhoteldeploy.yaml"""
                         sleep 5
                         sh """ssh $User_Name@$KubeM_Pvt_IP kubectl set image deploy $Deploy_Name $Container_Name=$DOCKERHUB_CREDENTIALS_USR/$User_Name-$App_Name-img:${params.new_ver}"""
-                        sleep 10
+                        sleep 15
                         sh """ssh $User_Name@$KubeM_Pvt_IP kubectl get pods -o wide"""
                     } else {
                         echo '**********Pod is not running, So Creating the Deployment**********'
@@ -215,7 +215,7 @@ pipeline{
                     if (rollback) {
                         echo '**********Pod Status is ErrImagePull or Pending, So Rolling Back the Deployment**********'
                         sh """ssh $User_Name@$KubeM_Pvt_IP kubectl rollout undo deployment/${APP_NAME}"""
-                        sleep 10
+                        sleep 15
                         sh """ssh $User_Name@$KubeM_Pvt_IP kubectl get pods -o wide"""
                     } else {
                         echo '**********All Pod Statuses are Running, So Deployment is SUCCESSFUL**********'
