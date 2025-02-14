@@ -253,7 +253,7 @@ pipeline{
               script{
                 echo '**********Cleaning RoyalHotel Production workspace**********'
                 cleanWs()
-                sh "rm -rf *"
+                deleteDir()
               }
             }
         }
